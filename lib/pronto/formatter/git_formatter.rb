@@ -62,7 +62,14 @@ module Pronto
         config.logger.log("Creating a comment from message: #{message.inspect}")
         sha = message.commit_sha
 
-        body = config.message_format(self.class.name) % message.to_h
+        message_hash = message.to_h
+        begin
+          title = Pronto::Formatter::RUNNER_TITLE % { runner_title: message_hash[:runner].upcase }
+          message_hash.merge!(runner: ENV[title]) if ENV[title].present?
+        rescue => e
+          puts "Exception :: #{e.message} :: runner_title :: #{title} :: ENV[title] ::#{ENV[title]} :: message_hash :: #{message_hash.inspect}"
+        end
+        body = config.message_format(self.class.name) % message_hash
 
         path = message.path
         lineno = line_number(message, patches) if message.line

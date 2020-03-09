@@ -24,5 +24,7 @@ module Pronto
       'text' => TextFormatter,
       'null' => NullFormatter
     }.freeze
+
+    RUNNER_TITLE = "PRONTO_%{runner_title}_TITLE".freeze
   end
 end

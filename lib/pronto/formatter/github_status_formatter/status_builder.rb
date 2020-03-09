@@ -19,7 +19,8 @@ module Pronto
         end
 
         def context
-          "pronto/#{@runner.title}"
+          title = Pronto::Formatter::RUNNER_TITLE % { runner_title: @runner.title.upcase }
+          "pronto/#{ENV[title] || @runner.title}"
         end
 
         private

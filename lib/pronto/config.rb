@@ -1,5 +1,7 @@
 module Pronto
   class Config
+    DEFAULT_EXCLUDED_FILES = ['Gemfile', 'Gemfile.lock'].map { |path| File.expand_path(path) }.freeze
+
     def initialize(config_hash = ConfigFile.new.to_h)
       @config_hash = config_hash
     end
@@ -26,7 +28,7 @@ module Pronto
           @config_hash.fetch(runner, {})['exclude']
         end
 
-      Array(files)
+      DEFAULT_EXCLUDED_FILES + Array(files)
         .flat_map { |path| Dir[path.to_s] }
         .map { |path| File.expand_path(path) }
     end
