@@ -65,7 +65,7 @@ module Pronto
         message_hash = message.to_h
         begin
           title = Pronto::Formatter::RUNNER_TITLE % { runner_title: message_hash[:runner].upcase }
-          message_hash.merge!(runner: ENV[title]) if ENV[title].present?
+          message_hash.merge!(runner: ENV[title]) if ENV[title] && !ENV[title].empty?
         rescue => e
           puts "Exception :: #{e.message} :: runner_title :: #{title} :: ENV[title] ::#{ENV[title]} :: message_hash :: #{message_hash.inspect}"
         end
